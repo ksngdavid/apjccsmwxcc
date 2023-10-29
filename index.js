@@ -147,7 +147,7 @@ app.get('/activate.html', (req, res) => {
         get_emergency(function(gotEmergency) {
             console.log(gotEmergency.defaultValue);
             if (gotEmergency.defaultValue === '0') {
-                res.render('emergency0', {
+                res.render('emergency0refresh', {
                     stuff: "This is stuff...",               // to pass variable from backend to frontend (html)
                     gcfToken: gotToken,
                     emergencyGV: gotEmergency
@@ -231,7 +231,7 @@ app.get('/deactivate.html', (req, res) => {
                 });
             };
             if (gotEmergency.defaultValue === '1') {
-                res.render('emergency1', {
+                res.render('emergency1refresh', {
                     stuff: "This is stuff...",               // to pass variable from backend to frontend (html)
                     gcfToken: gotToken,
                     emergencyGV: gotEmergency
