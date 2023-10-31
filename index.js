@@ -94,7 +94,7 @@ app.get('/emergency.html', (req, res) => {
 //Set distiescalate Handlebar routes
 app.get('/distiescalate.html', (req, res) => {
     res.render('distiescalate', {
-        stuff: "This is stuff...",               // to pass variable from backend to frontend (html)
+        stuff: "<<<UNDER CONSTRUCTION>>>",               // to pass variable from backend to frontend (html)
         morestuff: otherstuff
     });
 });
