@@ -130,21 +130,21 @@ app.get('/distiescalate.html', (req, res) => {
                 res.render('distiescalateFalse', {
                     stuff: "This is stuff...",               // to pass variable from backend to frontend (html)
                     gcfToken: gotToken,
-                    emergencyGV: gotEmergency
+//                    emergencyGV: gotEmergency
                 });
             };
             if (gotToggle.defaultValue === 'true') {
                 res.render('distiescalateTrue', {
                     stuff: "This is stuff...",               // to pass variable from backend to frontend (html)
                     gcfToken: gotToken,
-                    emergencyGV: gotEmergency
+//                    emergencyGV: gotEmergency
                 });
             };
             if (gotToggle.defaultValue === '') {
                 res.render('distiescalateError', {
                     stuff: "This is stuff...",               // to pass variable from backend to frontend (html)
                     gcfToken: gotToken,
-                    emergencyGV: gotEmergency
+//                    emergencyGV: gotEmergency
                 });
             };
         });
