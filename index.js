@@ -93,9 +93,66 @@ app.get('/emergency.html', (req, res) => {
 
 //Set distiescalate Handlebar routes
 app.get('/distiescalate.html', (req, res) => {
-    res.render('distiescalate', {
-        stuff: "<<<UNDER CONSTRUCTION>>>",               // to pass variable from backend to frontend (html)
-        morestuff: otherstuff
+    //Create get_wxcctoken function to get WxCC API Token from Google
+    function get_wxcctoken(receivedToken) {
+        requestToken('https://australia-southeast1-ringed-valor-334509.cloudfunctions.net/token-service?name=sample', {json: true}, (err, res, body) => {
+            if (err) {return console.log(err);}
+            if (res.statusCode === 200){
+            //console.log(body);   // Removed console the response body to Terminal
+           receivedToken(body) // Returning body value for frontend display
+            };
+        });    
+    };
+    
+    get_wxcctoken(function(gotToken) {
+        
+        // Get Emergency default value from WxCC
+        const requestToggle = require('request').defaults({
+            headers: {
+            "Authorization": "Bearer " + gotToken.token,
+            }
+        });
+    
+        //Create get_emergency function to get Emergency default value via WxCC API
+        function get_toggle(receivedToggle) {
+            requestToggle('https://api.wxcc-anz1.cisco.com/organization/2bf92e7b-4add-4c5b-9a37-03438c655e17/cad-variable/3d73fee2-7474-46ce-b858-a776d3b199ce', {json: true}, (err, res, body) => {
+                if (err) {return console.log(err);}
+                if (res.statusCode === 200){
+                //console.log(body.defaultValue);   // Removed console the response body to Terminal
+                receivedToggle(body); // Returning body value for frontend display
+                };
+            });
+        };
+
+        get_toggle(function(gotToggle) {
+            console.log(gotToggle.defaultValue);
+            if (gotToggle.defaultValue === 'false') {
+                res.render('distiescalateFalse', {
+                    stuff: "This is stuff...",               // to pass variable from backend to frontend (html)
+                    gcfToken: gotToken,
+                    emergencyGV: gotEmergency
+                });
+            };
+            if (gotToggle.defaultValue === 'true') {
+                res.render('distiescalateTrue', {
+                    stuff: "This is stuff...",               // to pass variable from backend to frontend (html)
+                    gcfToken: gotToken,
+                    emergencyGV: gotEmergency
+                });
+            };
+            if (gotToggle.defaultValue === '') {
+                res.render('distiescalateError', {
+                    stuff: "This is stuff...",               // to pass variable from backend to frontend (html)
+                    gcfToken: gotToken,
+                    emergencyGV: gotEmergency
+                });
+            };
+        });
+
+    console.log(gotToken.token);
+
+
+
     });
 });
 
